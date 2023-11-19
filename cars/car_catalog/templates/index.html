@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Catalog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <a href="{% url 'index' %}">На главную</a>
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_name">Выберите марку:</label>
+            <select class="form-control" id="id_name" name="name">
+                <option value="" selected disabled>Выберите марку</option>
+                {% for mark in marks %}
+                <option value="{{ mark.name }}">{{ mark.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Показать</button>
+    </form>
+
+    {% if models %}
+    <h2 class="mt-4">Модели марки {{ request.POST.name }}:</h2>
+    <ul>
+        {% for model in models %}
+        <li>{{ model.name }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+</body>
+</html>
